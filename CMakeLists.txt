@@ -28,8 +28,16 @@ target_include_directories(anim_window PUBLIC
   $<INSTALL_INTERFACE:include>)
 target_compile_features(anim_window PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 
+# Move binaries to lib folder
 install(TARGETS anim_window
-  DESTINATION lib/${PROJECT_NAME})
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+# Move launch files to share folder
+install(DIRECTORY
+  launch
+  DESTINATION share/${PROJECT_NAME}/
+)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

@@ -1,16 +1,23 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
+  <!-- Provide some basic info about the package -->
   <name>quad_anim</name>
   <version>0.0.0</version>
   <description>This package animates a quadcopter based on the state information received from the simulation package.</description>
   <maintainer email="vatsalasitkumar.joshi@uta.edu">Vatsal Joshi</maintainer>
   <license>Apache-2.0</license>
 
+  <!-- Define dependency on external libraries -->
   <depend>gnuplot</depend>
 
+  <!-- Define execution-time dependencies -->
+  <exec_depend>ros2launch</exec_depend>
+
+  <!-- Define dependency of the build tool, CMake in this case -->
   <buildtool_depend>ament_cmake</buildtool_depend>
 
+  <!-- Define dependency for tests -->
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
 
