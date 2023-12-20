@@ -73,16 +73,20 @@ int main(int argc, char **argv)
 
     std::cout << "Transferred all coordinate values" << std::endl;
 
-    auto basePlot = matplot::plot3(X_base, Y_base, Z_base);
+    auto f = matplot::figure(true);
+    auto ax = f->add_axes();
+
+    auto basePlot = ax->plot3(X_base, Y_base, Z_base);
     for (auto line : basePlot)
         line->line_width(3).color("blue");
-    auto bodyPlot = matplot::plot3(X_body, Y_body, Z_body);
+    auto bodyPlot = ax->plot3(X_body, Y_body, Z_body);
     for (auto line : bodyPlot)
         line->line_width(3).color("blue");
-    auto propPlot = matplot::plot3(X_prop, Y_prop, Z_prop);
+    auto propPlot = ax->plot3(X_prop, Y_prop, Z_prop);
     for (auto line : propPlot)
         line->line_width(3).color("#FFFFFF");
-    matplot::axis(matplot::equal);
+
+    ax->axes_aspect_ratio(1.0);
     matplot::xlim({-0.5, 0.5});
     matplot::ylim({-0.5, 0.5});
     matplot::zlim({-0.1, 0.5});
