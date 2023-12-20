@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(quad_anim)
+project(quad_anim C CXX)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -16,7 +16,12 @@ execute_process(
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-add_executable(anim_window src/anim_window.cpp)
+add_executable(anim_window
+  src/xCoords.c
+  src/yCoords.c
+  src/zCoords.c
+  src/anim_window.cpp
+)
 target_link_libraries(anim_window PRIVATE Matplot++::matplot)
 target_include_directories(anim_window PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
