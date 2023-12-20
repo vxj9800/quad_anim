@@ -8,6 +8,13 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(Matplot++ REQUIRED)
+find_package(Python REQUIRED)
+
+# Generate some C/C++ code
+execute_process(
+  COMMAND ${Python_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/scripts/genGeomVects.py
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+)
 
 add_executable(anim_window src/anim_window.cpp)
 target_link_libraries(anim_window PRIVATE Matplot++::matplot)
