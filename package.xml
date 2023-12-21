@@ -9,6 +9,10 @@
   <license>Apache-2.0</license>
 
   <!-- Define dependency on external libraries -->
+  <depend>rclcpp</depend>
+  <depend>std_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>builtin_interfaces</depend>
   <depend>gnuplot</depend>
 
   <!-- Define execution-time dependencies -->

@@ -7,8 +7,13 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-find_package(Matplot++ REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(builtin_interfaces REQUIRED)
 find_package(Python REQUIRED)
+find_package(Gnuplot REQUIRED)
+find_package(Matplot++ REQUIRED)
 
 # Generate some C/C++ code
 execute_process(
@@ -16,13 +21,16 @@ execute_process(
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
+# Add target
 add_executable(anim_window
   src/xCoords.c
   src/yCoords.c
   src/zCoords.c
+  src/animWindowNode.cpp
   src/anim_window.cpp
 )
-target_link_libraries(anim_window PRIVATE Matplot++::matplot)
+ament_target_dependencies(anim_window rclcpp std_msgs geometry_msgs builtin_interfaces)
+target_link_libraries(anim_window Matplot++::matplot)
 target_include_directories(anim_window PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
