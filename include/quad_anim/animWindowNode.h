@@ -41,6 +41,7 @@ private:
     // Variables for plot
     matplot::figure_handle f;
     matplot::axes_handle ax;
+    std::vector<matplot::line_handle> basePlot, bodyPlot, propPlot;
 
     // Constants for motor positions //
     std::vector<double> pB = {0.08, 0.08, 0.015};   // pB = [lB; wB; hB];
@@ -55,9 +56,9 @@ private:
     std::vector<double> q = {0, 0, 0, 1, 0, 0, 0, M_PI_4, M_PI_2 + M_PI_4, M_PI_4, M_PI_2 + M_PI_4};
 
     // Get the x, y and z coordinate values //
-    std::vector<double> x = std::vector<double>(12*2);
-    std::vector<double> y = std::vector<double>(12*2);
-    std::vector<double> z = std::vector<double>(12*2);
+    std::vector<double> x = std::vector<double>(12 * 2);
+    std::vector<double> y = std::vector<double>(12 * 2);
+    std::vector<double> z = std::vector<double>(12 * 2);
 };
 
 #endif // __ANIM_WINDOW_HEADER__

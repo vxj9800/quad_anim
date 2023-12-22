@@ -5,7 +5,7 @@
   <name>quad_anim</name>
   <version>0.0.0</version>
   <description>This package animates a quadcopter based on the state information received from the simulation package.</description>
-  <maintainer email="vatsalasitkumar.joshi@uta.edu">Vatsal Joshi</maintainer>
+  <maintainer email="vatsalasitkumar.joshi@mavs.uta.edu">Vatsal Joshi</maintainer>
   <license>Apache-2.0</license>
 
   <!-- Define dependency on external libraries -->
