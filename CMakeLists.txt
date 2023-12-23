@@ -12,8 +12,6 @@ find_package(std_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(builtin_interfaces REQUIRED)
 find_package(Python REQUIRED)
-find_package(Gnuplot REQUIRED)
-find_package(Matplot++ REQUIRED)
 
 # Generate some C/C++ code
 execute_process(
@@ -30,7 +28,7 @@ add_executable(anim_window
   src/anim_window.cpp
 )
 ament_target_dependencies(anim_window rclcpp std_msgs geometry_msgs builtin_interfaces)
-target_link_libraries(anim_window Matplot++::matplot)
+target_link_libraries(anim_window raylib)
 target_include_directories(anim_window PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)

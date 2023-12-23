@@ -13,7 +13,8 @@ extern "C"
 #include <builtin_interfaces/msg/time.hpp>
 
 // Add other external libraries
-#include <matplot/matplot.h>
+#include <raylib.h>
+#include <raymath.h>
 
 #ifndef __ANIM_WINDOW_HEADER__
 #define __ANIM_WINDOW_HEADER__
@@ -23,6 +24,10 @@ class animWindowNode : public rclcpp::Node
 public:
     animWindowNode();
     // ~animWindowNode();
+
+    // Variables for raylib window
+    unsigned int screenWidth = GetScreenWidth(), screenHeight = GetScreenHeight();
+    bool updateWindow = false;
 
 private:
     // Variables for subscribers
@@ -37,11 +42,6 @@ private:
     void motD_Cb(const std_msgs::msg::Float64::SharedPtr msg);
     void motE_Cb(const std_msgs::msg::Float64::SharedPtr msg);
     void tick_Cb(const builtin_interfaces::msg::Time msg);
-
-    // Variables for plot
-    matplot::figure_handle f;
-    matplot::axes_handle ax;
-    std::vector<matplot::line_handle> basePlot, bodyPlot, propPlot;
 
     // Constants for motor positions //
     std::vector<double> pB = {0.08, 0.08, 0.015};   // pB = [lB; wB; hB];
