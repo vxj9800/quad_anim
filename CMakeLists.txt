@@ -12,6 +12,11 @@ find_package(std_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(builtin_interfaces REQUIRED)
 find_package(Python REQUIRED)
+find_package(raylib REQUIRED)
+
+# Somehow the next line makes the raylib work.
+# However, it is not required by other libraries.
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 # Generate some C/C++ code
 execute_process(

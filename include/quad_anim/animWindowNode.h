@@ -26,7 +26,6 @@ public:
     // ~animWindowNode();
 
     // Variables for raylib window
-    unsigned int screenWidth = GetScreenWidth(), screenHeight = GetScreenHeight();
     bool updateWindow = false;
 
 private:
