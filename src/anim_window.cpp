@@ -15,10 +15,12 @@ int main(int argc, char **argv)
     // Some initialization.
     rclcpp::init(argc, argv);
 
-    // Initialize the animWindowNode node
+    // Initialize the ROS executor
     rclcpp::executors::MultiThreadedExecutor rosExecutor;
-    std::shared_ptr<animWindowNode> animWindowNodePtr(new animWindowNode());
-    rosExecutor.add_node(animWindowNodePtr);
+
+    // Get a shared pointer for a node object
+    std::shared_ptr<animWindowNode> animWindowPtr = std::make_shared<animWindowNode>();
+    rosExecutor.add_node(animWindowPtr);
 
     // Initialize window
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
@@ -35,10 +37,30 @@ int main(int argc, char **argv)
 
     while (!WindowShouldClose() && rclcpp::ok())
     {
-        // Allow ROS to finish publishing
-        rosExecutor.spin_some();
         BeginDrawing();
+        ClearBackground(BLACK);
+
+        BeginMode3D(camera);
+
+        DrawGrid(10, 1.0f); // Draw a grid
+
+        // Draw lines till the base of the motors
+        for (size_t i = 0; i < animWindowPtr->baseStart.size(); ++i)
+            DrawLine3D(animWindowPtr->baseStart[i], animWindowPtr->baseEnd[i], BLUE);
+
+        for (size_t i = 0; i < animWindowPtr->bodyStart.size(); ++i)
+            DrawLine3D(animWindowPtr->bodyStart[i], animWindowPtr->bodyEnd[i], BLUE);
+
+        for (size_t i = 0; i < animWindowPtr->propStart.size(); ++i)
+            DrawLine3D(animWindowPtr->propStart[i], animWindowPtr->propEnd[i], RED);
+
+        EndMode3D();
+
+        DrawFPS(10, 10);
         EndDrawing();
+        
+        // Let ROS process subscriber callbacks
+        rosExecutor.spin_some();
     }
 
     rclcpp::shutdown();

@@ -25,8 +25,10 @@ public:
     animWindowNode();
     // ~animWindowNode();
 
-    // Variables for raylib window
-    bool updateWindow = false;
+    // Variables to hold line informations that needs to be drawn.
+    std::vector<Vector3> baseStart, baseEnd;
+    std::vector<Vector3> bodyStart, bodyEnd;
+    std::vector<Vector3> propStart, propEnd;
 
 private:
     // Variables for subscribers
@@ -58,6 +60,9 @@ private:
     std::vector<double> x = std::vector<double>(12 * 2);
     std::vector<double> y = std::vector<double>(12 * 2);
     std::vector<double> z = std::vector<double>(12 * 2);
+
+    // Convert coordinate data to line data
+    void convCoordToLine();
 };
 
 #endif // __ANIM_WINDOW_HEADER__
