@@ -31,8 +31,8 @@ void animWindowNode::bodyPose_Cb(const geometry_msgs::msg::Pose::SharedPtr msg)
 {
     // Update the body position
     q[0] = msg->position.x;
-    q[1] = msg->position.x;
-    q[2] = msg->position.x;
+    q[1] = msg->position.y;
+    q[2] = msg->position.z;
 
     // Update the body orientation
     q[3] = msg->orientation.w;
