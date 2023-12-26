@@ -65,7 +65,14 @@ int main(int argc, char **argv)
         screenWidth = GetScreenWidth(), screenHeight = GetScreenHeight();
 
         // Orbit the camera
-        UpdateCamera(&cam, CAMERA_THIRD_PERSON);
+
+        cam.target.x = animWindowPtr->baseStart[0].x;
+        cam.target.y = animWindowPtr->baseStart[0].y;
+        cam.target.z = animWindowPtr->baseStart[0].z;
+
+        cam.position.x = cam.target.x + 1;
+        cam.position.y = cam.target.y + 0;
+        cam.position.z = cam.target.z + 0.2;
 
         // Send camera location to the shader
         float viewPos[3] = {cam.position.x, cam.position.y, cam.position.z};
