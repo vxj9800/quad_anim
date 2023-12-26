@@ -36,13 +36,9 @@ vec4 gridColor(vec4 v)
 
 void main()
 {
-    // simple but expensive 2: discard pixels not on the plane
-    if (fragVert.w > 0)
-        discard;
-    
     gl_FragDepth = (fragNdc.z / fragNdc.w + 1.0) / 2.0;
 
     finalColor = gridColor(fragVert);
-    finalColor.a *= sqrt(1/length(fragVert.xyz/fragVert.w));
+    finalColor.a *= sqrt(1/length(fragVert.xyz/fragVert.w)) * float(fragVert.w < 0);
 }
 )"
