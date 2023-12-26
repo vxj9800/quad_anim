@@ -6,6 +6,7 @@
 
 in vec3 vertexPosition;   // Vertex input attribute: position
 in vec4 vertexColor;      // Vertex input attribute: color
+uniform vec3 viewPos;         // Camera position in world
 
 out vec4 fragVert;
 out vec4 fragNdc;
@@ -28,7 +29,7 @@ void main()
 
     vec3 planeOrgDist = dehomog(matView * mat4(1) * vec4(0, 0, 0, 1)); // Distance between plane and origin in view frame
 
-    vec4 D = inverse(matProjection) * cpVertex; // Clip coordinates in view frame
+    vec4 D = sign(viewPos.z) * inverse(matProjection) * cpVertex; // Clip coordinates in view frame
     vec4 N = matView * mat4(1) * vec4(0, 0, 1, 0); // Plane normal in view frame
     float d = -dot(N.xyz, planeOrgDist); // Dot product between 
 

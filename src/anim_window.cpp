@@ -50,6 +50,9 @@ int main(int argc, char **argv)
     // Load the infinite plane shaders
     Shader infPlaneShader = LoadShader(TextFormat("shaders/infPlane.vs", GLSL_VERSION),
                                TextFormat("shaders/infPlane.fs", GLSL_VERSION));
+    
+    // Provide shader location for the camera position
+    infPlaneShader.locs[SHADER_LOC_VECTOR_VIEW] = GetShaderLocation(infPlaneShader, "viewPos");
 
     // Assign infPlane shader to model
     plane.materials[0].shader = infPlaneShader;
@@ -63,7 +66,11 @@ int main(int argc, char **argv)
         screenWidth = GetScreenWidth(), screenHeight = GetScreenHeight();
 
         // Orbit the camera
-        UpdateCamera(&cam, CAMERA_ORBITAL);
+        UpdateCamera(&cam, CAMERA_THIRD_PERSON);
+
+        // Send camera location to the shader
+        float viewPos[3] = {cam.position.x, cam.position.y, cam.position.z};
+        SetShaderValue(infPlaneShader, infPlaneShader.locs[SHADER_LOC_VECTOR_VIEW], viewPos, SHADER_UNIFORM_VEC3);
 
         BeginDrawing();
         ClearBackground(BLACK);

@@ -38,16 +38,8 @@ void main()
     // simple but expensive 2: discard pixels not on the plane
     if (fragVert.w > 0)
         discard;
-
-    float clipSpaceDepth = (fragNdc.z / fragNdc.w + 1.0) / 2.0;
-    gl_FragDepth = clipSpaceDepth;
-    float depth = clipSpaceDepth * 2  - 1;
-
-    float m22 = -matProjection[2][2];
-    float m32 = -matProjection[3][2];    
-
-    float near = (2.0f*m32)/(2.0f*m22-2.0f);
-    float far = ((m22-1.0f)*near)/(m22+1.0);
+    
+    gl_FragDepth = (fragNdc.z / fragNdc.w + 1.0) / 2.0;
 
     finalColor = gridColor(fragVert);
     finalColor.a *= sqrt(1/length(fragVert.xyz/fragVert.w));
