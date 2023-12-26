@@ -59,6 +59,9 @@ int main(int argc, char **argv)
 
     while (!WindowShouldClose() && rclcpp::ok())
     {
+        // Update the window size if it has been changed
+        screenWidth = GetScreenWidth(), screenHeight = GetScreenHeight();
+
         // Orbit the camera
         UpdateCamera(&cam, CAMERA_ORBITAL);
 
@@ -83,8 +86,12 @@ int main(int argc, char **argv)
         EndMode3D();
 
         DrawFPS(10, 10);
+        std::string printTime = "Sim Time: " + std::to_string(animWindowPtr->time);
+        int txtWidth = MeasureText(printTime.c_str(), 24);
+        DrawText(printTime.c_str(), (screenWidth - txtWidth)/2, 10, 24, LIGHTGRAY);
+
         EndDrawing();
-        
+
         // Let ROS process subscriber callbacks
         rosExecutor.spin_some();
     }

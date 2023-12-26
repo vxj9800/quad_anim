@@ -30,6 +30,9 @@ public:
     std::vector<Vector3> bodyStart, bodyEnd;
     std::vector<Vector3> propStart, propEnd;
 
+    // Variable to store time
+    double time = 0;
+
 private:
     // Variables for subscribers
     rclcpp::Subscription<geometry_msgs::msg::Pose>::SharedPtr bodyPose_Sub;

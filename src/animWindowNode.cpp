@@ -63,6 +63,9 @@ void animWindowNode::motE_Cb(const std_msgs::msg::Float64::SharedPtr msg)
 
 void animWindowNode::tick_Cb(const builtin_interfaces::msg::Time msg)
 {
+    // Update the simulation time
+    time = msg.sec + msg.nanosec * 1e-9;
+    
     // Get coordinates of all the positions
     xCoords(q.data(), pB.data(), pC.data(), pD.data(), pE.data(), propDia, x.data());
     yCoords(q.data(), pB.data(), pC.data(), pD.data(), pE.data(), propDia, y.data());
@@ -71,6 +74,7 @@ void animWindowNode::tick_Cb(const builtin_interfaces::msg::Time msg)
     // Convert new coordinate data to line data
     convCoordToLine();
 }
+
 void animWindowNode::convCoordToLine()
 {
     // Transfer the coordinates to different lines
