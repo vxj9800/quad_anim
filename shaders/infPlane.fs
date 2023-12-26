@@ -4,7 +4,6 @@
 // 1. https://gist.github.com/cmbruns/3c184d303e665ee2e987e4c1c2fe4b56
 // 2. https://asliceofrendering.com/scene%20helper/2020/01/05/InfiniteGrid/
 
-in vec4 fragColor;   // From-vertex attribute: color
 in vec4 fragVert;
 in vec4 fragNdc;
 
@@ -24,7 +23,7 @@ vec4 gridColor(vec4 v)
     float line = min(grid.x, grid.y);
     float minimumy = min(derivative.y, 1);
     float minimumx = min(derivative.x, 1);
-    vec4 color = vec4(fragColor.xyz, 1.0 - min(line, 1.0));
+    vec4 color = vec4(0.5, 0.5, 0.5, 1.0 - min(line, 1.0));
     // y axis
     if(vInW.x > -minimumx && vInW.x < minimumx)
         color.xyz = vec3(0,1,0);

@@ -31,13 +31,13 @@ int main(int argc, char **argv)
     rosExecutor.add_node(animWindowPtr);
 
     // Initialize window
-    SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_MSAA_4X_HINT);
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     unsigned int screenWidth = 1280, screenHeight = 720;
     InitWindow(screenWidth, screenHeight, animWindowPtr->get_name());
 
     // Create a Camera object
     Camera cam = {
-        {2, 0, 0.2},       // Position
+        {1, 0, 0.2},       // Position
         {0, 0, 0},         // Looking at
         {0, 0, 1},         // Direction that is up in camera view
         {45},              // Field of view
@@ -67,7 +67,7 @@ int main(int argc, char **argv)
 
         BeginMode3D(cam);
 
-        DrawModel(plane, Vector3Zero(), 1, LIGHTGRAY);
+        DrawModel(plane, Vector3Zero(), 1, WHITE);
         DrawRay(Ray{{0, 0, 0}, {0, 0, 1}}, Color({0, 0, 255, 255}));
 
         // Draw lines till the base of the motors

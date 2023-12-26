@@ -7,7 +7,6 @@
 in vec3 vertexPosition;   // Vertex input attribute: position
 in vec4 vertexColor;      // Vertex input attribute: color
 
-out vec4 fragColor;   // To-fragment attribute: color
 out vec4 fragVert;
 out vec4 fragNdc;
 
@@ -26,7 +25,6 @@ void main()
     // Convert the model plane into clip plane
     vec4 cpVertex = matModel*vec4(vertexPosition,1.0);
     gl_Position = vec4(cpVertex.xyz, 1.0);
-    fragColor = vertexColor;
 
     vec3 planeOrgDist = dehomog(matView * mat4(1) * vec4(0, 0, 0, 1)); // Distance between plane and origin in view frame
 
