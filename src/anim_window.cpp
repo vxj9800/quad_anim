@@ -12,12 +12,6 @@
 // Add package headers
 #include <quad_anim/animWindowNode.h>
 
-#if defined(PLATFORM_DESKTOP)
-#define GLSL_VERSION 330
-#else // PLATFORM_ANDROID, PLATFORM_WEB
-#define GLSL_VERSION 100
-#endif
-
 int main(int argc, char **argv)
 {
     // Some initialization.
@@ -48,9 +42,14 @@ int main(int argc, char **argv)
     Model plane = LoadModelFromMesh(GenMeshPlane(2, 2, 1, 1)); // Plane is created on XZ plane with normal pointing in +Y direction
 
     // Load the infinite plane shaders
-    Shader infPlaneShader = LoadShader(TextFormat("shaders/infPlane.vs", GLSL_VERSION),
-                               TextFormat("shaders/infPlane.fs", GLSL_VERSION));
-    
+    const std::string vs_source =
+        #include "quad_anim/shaders/infPlane.vs"
+    ;
+    const std::string fs_source =
+        #include "quad_anim/shaders/infPlane.fs"
+    ;
+    Shader infPlaneShader = LoadShaderFromMemory(vs_source.c_str(), fs_source.c_str());
+
     // Provide shader location for the camera position
     infPlaneShader.locs[SHADER_LOC_VECTOR_VIEW] = GetShaderLocation(infPlaneShader, "viewPos");
 

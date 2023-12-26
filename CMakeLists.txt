@@ -44,11 +44,6 @@ install(TARGETS anim_window
   DESTINATION lib/${PROJECT_NAME}
 )
 
-# Move the shaders to lib folder
-install(DIRECTORY shaders
-  DESTINATION lib/${PROJECT_NAME}
-)
-
 # Move launch files to share folder
 install(DIRECTORY
   launch

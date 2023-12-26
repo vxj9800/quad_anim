@@ -1,3 +1,4 @@
+R"( // This makes the shader code a string literal, that can be included in the C++ code directly
 #version 330
 
 // Adapted from
@@ -44,3 +45,4 @@ void main()
     finalColor = gridColor(fragVert);
     finalColor.a *= sqrt(1/length(fragVert.xyz/fragVert.w));
 }
+)"
