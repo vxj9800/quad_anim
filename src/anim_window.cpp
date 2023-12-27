@@ -2,6 +2,7 @@
 #include <iostream>
 
 // Add ROS headers
+#include <ament_index_cpp/get_package_share_directory.hpp>
 #include <rclcpp/rclcpp.hpp>
 
 // Add other external libraries
@@ -21,6 +22,9 @@ int main(int argc, char **argv)
 {
     // Some initialization.
     rclcpp::init(argc, argv);
+
+    // Get location of the package share directory
+    std::string pkgShareDir = ament_index_cpp::get_package_share_directory(ROS_PACKAGE_NAME);
 
     // Initialize the ROS executor
     rclcpp::executors::MultiThreadedExecutor rosExecutor;
@@ -47,13 +51,15 @@ int main(int argc, char **argv)
     Model plane = LoadModelFromMesh(GenMeshPlane(2, 2, 1, 1)); // Plane is created on XZ plane with normal pointing in +Y direction
 
     // Load the infinite plane shaders
-    const std::string vs_source =
-        #include "quad_anim/shaders/infPlane.vs"
-    ;
-    const std::string fs_source =
-        #include "quad_anim/shaders/infPlane.fs"
-    ;
-    Shader infPlaneShader = LoadShaderFromMemory(vs_source.c_str(), fs_source.c_str());
+    Shader infPlaneShader = LoadShader((pkgShareDir + "/shaders/infPlane.vs").c_str(),
+                                       (pkgShareDir + "/shaders/infPlane.fs").c_str());
+    // const std::string vs_source =
+    //     #include "quad_anim/shaders/infPlane.vs"
+    // ;
+    // const std::string fs_source =
+    //     #include "quad_anim/shaders/infPlane.fs"
+    // ;
+    // Shader infPlaneShader = LoadShaderFromMemory(vs_source.c_str(), fs_source.c_str());
 
     // Provide shader location for the camera position
     infPlaneShader.locs[SHADER_LOC_VECTOR_VIEW] = GetShaderLocation(infPlaneShader, "viewPos");

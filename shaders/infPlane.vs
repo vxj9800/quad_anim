@@ -1,4 +1,3 @@
-R"( // This makes the shader code a string literal, that can be included in the C++ code directly
 #version 330
 
 // Adapted from
@@ -41,4 +40,3 @@ void main()
 
     fragNdc = matProjection * fragVert; // Put the point back into projection frame
 }
-)"

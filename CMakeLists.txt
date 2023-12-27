@@ -51,6 +51,7 @@ install(TARGETS anim_window
 # Move launch files to share folder
 install(DIRECTORY
   launch
+  shaders
   DESTINATION share/${PROJECT_NAME}/
 )
 
