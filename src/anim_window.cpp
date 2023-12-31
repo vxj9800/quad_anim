@@ -40,7 +40,7 @@ int main(int argc, char **argv)
 
     // Create a Camera object
     Camera cam = {
-        {1, 0, 0.2},       // Position
+        {-1, 0, 0.2},       // Position
         {0, 0, 0},         // Looking at
         {0, 0, 1},         // Direction that is up in camera view
         {45},              // Field of view
@@ -81,7 +81,7 @@ int main(int argc, char **argv)
         cam.target.y = animWindowPtr->baseStart[0].y;
         cam.target.z = animWindowPtr->baseStart[0].z;
 
-        cam.position.x = cam.target.x + 1;
+        cam.position.x = cam.target.x - 1;
         cam.position.y = cam.target.y + 0;
         cam.position.z = cam.target.z + 0.2;
 
