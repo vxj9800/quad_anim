@@ -30,6 +30,9 @@ public:
     std::vector<Vector3> bodyStart, bodyEnd;
     std::vector<Vector3> propStart, propEnd;
 
+    // Define generalized coordinates to check //
+    std::vector<double> q = {0, 0, 0, 1, 0, 0, 0, M_PI_4, M_PI_2 + M_PI_4, M_PI_4, M_PI_2 + M_PI_4};
+
     // Variable to store time
     double time = 0;
 
@@ -55,9 +58,6 @@ private:
 
     // Define Propeller data //
     double propDia = 0.127; // Propeller Diameter
-
-    // Define generalized coordinates to check //
-    std::vector<double> q = {0, 0, 0, 1, 0, 0, 0, M_PI_4, M_PI_2 + M_PI_4, M_PI_4, M_PI_2 + M_PI_4};
 
     // Get the x, y and z coordinate values //
     std::vector<double> x = std::vector<double>(12 * 2);

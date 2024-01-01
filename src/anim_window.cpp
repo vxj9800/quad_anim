@@ -18,6 +18,22 @@
 #define ROS_PACKAGE_NAME ""
 #endif
 
+void getCamPosAndTrg(const std::vector<double> &bodyPose, std::vector<double> &camPos, std::vector<double> &camTrg)
+{
+    // Calculate rotation matrix
+    std::vector<double> R_NA = {pow(bodyPose[3], 2) + pow(bodyPose[4], 2) - pow(bodyPose[5], 2) - pow(bodyPose[6], 2), 2 * (bodyPose[4] * bodyPose[5] - bodyPose[3] * bodyPose[6]), 2 * (bodyPose[4] * bodyPose[6] + bodyPose[3] * bodyPose[5]), 2 * (bodyPose[4] * bodyPose[5] + bodyPose[3] * bodyPose[6]), pow(bodyPose[3], 2) - pow(bodyPose[4], 2) + pow(bodyPose[5], 2) - pow(bodyPose[6], 2), 2 * (bodyPose[5] * bodyPose[6] - bodyPose[3] * bodyPose[4]), 2 * (bodyPose[4] * bodyPose[6] - bodyPose[3] * bodyPose[5]), 2 * (bodyPose[5] * bodyPose[6] + bodyPose[3] * bodyPose[4]), pow(bodyPose[3], 2) - pow(bodyPose[4], 2) - pow(bodyPose[5], 2) + pow(bodyPose[6], 2)};
+
+    // Calculate camera position
+    // Camera is supposed to be at [-1, 0, 0.2] position in the body attached w.r.t body attached point
+    for (size_t i = 0; i < 3; ++i)
+        camPos[i] = bodyPose[i] + R_NA[i * 3 + 0] * (-1) + R_NA[i * 3 + 1] * (0) + R_NA[i * 3 + 2] * (0.2);
+
+    // Calculate camera target
+    // Camera should be looking at the quadcopter
+    for (size_t i = 0; i < 3; ++i)
+        camTrg[i] = bodyPose[i];
+}
+
 int main(int argc, char **argv)
 {
     // Some initialization.
@@ -39,12 +55,14 @@ int main(int argc, char **argv)
     InitWindow(screenWidth, screenHeight, animWindowPtr->get_name());
 
     // Create a Camera object
+    std::vector<double> camPos(3), camTrg(3); // Variables to store camera position and target
+    getCamPosAndTrg(animWindowPtr->q, camPos, camTrg);
     Camera cam = {
-        {-1, 0, 0.2},       // Position
-        {0, 0, 0},         // Looking at
-        {0, 0, 1},         // Direction that is up in camera view
-        {45},              // Field of view
-        CAMERA_PERSPECTIVE // Projection type
+        {camPos[0], camPos[1], camPos[2]}, // Position
+        {camTrg[0], camTrg[1], camTrg[2]}, // Looking at
+        {0, 0, 1},                         // Direction that is up in camera view
+        {45},                              // Field of view
+        CAMERA_PERSPECTIVE                 // Projection type
     };
 
     // Create a Plane and sphere models
@@ -53,13 +71,6 @@ int main(int argc, char **argv)
     // Load the infinite plane shaders
     Shader infPlaneShader = LoadShader((pkgShareDir + "/shaders/infPlane.vs").c_str(),
                                        (pkgShareDir + "/shaders/infPlane.fs").c_str());
-    // const std::string vs_source =
-    //     #include "quad_anim/shaders/infPlane.vs"
-    // ;
-    // const std::string fs_source =
-    //     #include "quad_anim/shaders/infPlane.fs"
-    // ;
-    // Shader infPlaneShader = LoadShaderFromMemory(vs_source.c_str(), fs_source.c_str());
 
     // Provide shader location for the camera position
     infPlaneShader.locs[SHADER_LOC_VECTOR_VIEW] = GetShaderLocation(infPlaneShader, "viewPos");
@@ -75,15 +86,14 @@ int main(int argc, char **argv)
         // Update the window size if it has been changed
         screenWidth = GetScreenWidth(), screenHeight = GetScreenHeight();
 
-        // Orbit the camera
-
-        cam.target.x = animWindowPtr->baseStart[0].x;
-        cam.target.y = animWindowPtr->baseStart[0].y;
-        cam.target.z = animWindowPtr->baseStart[0].z;
-
-        cam.position.x = cam.target.x - 1;
-        cam.position.y = cam.target.y + 0;
-        cam.position.z = cam.target.z + 0.2;
+        // Update camera position and target
+        getCamPosAndTrg(animWindowPtr->q, camPos, camTrg);
+        cam.position.x = camPos[0];
+        cam.position.y = camPos[1];
+        cam.position.z = camPos[2];
+        cam.target.x = camTrg[0];
+        cam.target.y = camTrg[1];
+        cam.target.z = camTrg[2];
 
         // Send camera location to the shader
         float viewPos[3] = {cam.position.x, cam.position.y, cam.position.z};
@@ -112,7 +122,7 @@ int main(int argc, char **argv)
         DrawFPS(10, 10);
         std::string printTime = "Sim Time: " + std::to_string(animWindowPtr->time);
         int txtWidth = MeasureText(printTime.c_str(), 24);
-        DrawText(printTime.c_str(), (screenWidth - txtWidth)/2, 10, 24, LIGHTGRAY);
+        DrawText(printTime.c_str(), (screenWidth - txtWidth) / 2, 10, 24, LIGHTGRAY);
 
         EndDrawing();
 
