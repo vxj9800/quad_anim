@@ -24,12 +24,13 @@ vec4 gridColor(vec4 v)
     float minimumy = min(derivative.y, 1);
     float minimumx = min(derivative.x, 1);
     vec4 color = vec4(1.0, 1.0, 1.0, 1.0 - min(line, 1.0));
+    color.a *= sqrt(1/length(v.xyz/v.w)) * float(v.w < 0);
     // y axis
-    if(vInW.x > -minimumx && vInW.x < minimumx)
-        color.xyz = vec3(0,1,0);
+    if(vInW.x > -minimumx*0.5 && vInW.x < minimumx*0.5 && color.a != 0)
+        color = vec4(0,1,0,1);
     // x axis
-    if(vInW.y > -minimumy && vInW.y < minimumy)
-        color.xyz = vec3(1,0,0);
+    if(vInW.y > -minimumy*0.5 && vInW.y < minimumy*0.5 && color.a != 0)
+        color = vec4(1,0,0,1);
     return color;
 }
 
@@ -38,5 +39,4 @@ void main()
     gl_FragDepth = (fragNdc.z / fragNdc.w + 1.0) / 2.0;
 
     finalColor = gridColor(fragVert);
-    finalColor.a *= sqrt(1/length(fragVert.xyz/fragVert.w)) * float(fragVert.w < 0);
 }
