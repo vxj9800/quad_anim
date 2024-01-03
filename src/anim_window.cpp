@@ -81,6 +81,9 @@ int main(int argc, char **argv)
     // Apply transformation on the plane to make the normal point to +Z
     plane.transform = MatrixRotate({1, 0, 0}, PI / 2);
 
+    // Define framerate for the window
+    SetTargetFPS(120);
+
     while (!WindowShouldClose() && rclcpp::ok())
     {
         // Update the window size if it has been changed
@@ -107,7 +110,8 @@ int main(int argc, char **argv)
         DrawModel(plane, Vector3Zero(), 1, WHITE);
         DrawRay(Ray{{0, 0, 0}, {0, 0, 1}}, Color({0, 0, 255, 255}));
 
-        // Draw lines till the base of the motors
+        // Draw lines representing the quadcopter
+        double timeStamp = animWindowPtr->updateLineData();
         for (size_t i = 0; i < animWindowPtr->baseStart.size(); ++i)
             DrawLine3D(animWindowPtr->baseStart[i], animWindowPtr->baseEnd[i], BLUE);
 
@@ -120,7 +124,7 @@ int main(int argc, char **argv)
         EndMode3D();
 
         DrawFPS(10, 10);
-        std::string printTime = "Sim Time: " + std::to_string(animWindowPtr->time);
+        std::string printTime = "Sim Time: " + std::to_string(timeStamp);
         int txtWidth = MeasureText(printTime.c_str(), 24);
         DrawText(printTime.c_str(), (screenWidth - txtWidth) / 2, 10, 24, LIGHTGRAY);
 
